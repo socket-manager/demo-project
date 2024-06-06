@@ -1,0 +1,20 @@
+{
+    "name": "socket-manager/library",
+    "description": "SocketManager Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SocketManager\\Library\\": "src/",
+            "SocketManager\\Library\\Bin\\": "bin/"
+        }
+    },
+    "authors": [
+        {
+            "name": "coohii",
+            "email": "msei658@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

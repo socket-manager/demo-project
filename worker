@@ -1,0 +1,16 @@
+<?php
+/**
+ * フレームワーク実行ファイル
+ * 
+ * workerコマンドによるフレームワーク上の操作を行う
+ */
+
+require_once('vendor/autoload.php');
+
+use SocketManager\Library\FrameWork\Worker;
+
+
+$worker = new Worker(__DIR__, $argv);
+$w_ret = $worker->working();
+
+exit(0);

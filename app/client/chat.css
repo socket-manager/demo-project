@@ -1,0 +1,298 @@
+@charset "utf-8";
+
+body {
+    background-color: #fffff0;
+    color: #000333;
+    width: 710px;
+    margin: auto;
+}
+
+/* 接続先アドレス入力欄 */
+input.uri {
+    display: block;
+    height: 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-indent: .5em;
+    box-shadow: none;
+    width: 200px;
+    font-size: 14px;
+}
+
+/* ユーザー名入力欄 */
+input.user {
+    display: block;
+    height: 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-indent: .5em;
+    box-shadow: none;
+    width: 140px;
+    font-size: 14px;
+}
+
+/* コメント入力欄、プライベートコメント入力欄、ユーザー名入力欄 */
+div.comment-div, div.private-div, div.user-div {
+    display: flex;
+    flex-direction: row;
+}
+
+/* コメント入力欄 */
+div.comment-div {
+    margin-top: 60px;
+}
+
+/* 履歴欄の見出し */
+div.heading-div {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+/* 履歴ラベル欄 */
+div.label-div {
+    height: 20px;
+}
+/* 参加人数欄 */
+div.count-div {
+    display: flex;
+    flex-direction: row;
+    height: 20px;
+    width: 150px;
+    margin: 0 0 0 auto;
+}
+
+/* 履歴ラベル */
+p.log-label {
+    color: #f07e1a;
+    font-weight: bold;
+}
+/* 参加人数ラベル */
+p.count-label {
+    color: #f07e1a;
+    font-weight: bold;
+}
+/* 参加人数 */
+p.count-user {
+    color: #f07e1a;
+    font-weight: bold;
+}
+
+/* コメント入力フィールド全般 */
+input.comment {
+    display: block;
+    height: 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-indent: .5em;
+    box-shadow: none;
+    font-size: 14px;
+}
+
+/* チャットコメント入力フィールド */
+input.normal-comment {
+    width: 470px;
+}
+
+/* プライベートコメント入力フィールド */
+input.private-comment {
+    width: 350px;
+}
+
+/* プライベートコメント宛先入力フィールド */
+input.private-user {
+    width: 120px;
+}
+
+/* コメント送信ボタン、接続ボタン、プライベートコメント送信ボタン */
+#send_button, #connect_button, #private_send_button {
+    margin-left: 10px;
+    border: 2px solid #f07e1a;
+    border-radius: 3px;
+    color: #fff;
+    background: #f07e1a;
+    font-weight: bold;
+    font-size: medium;
+}
+#send_button:active {
+    color: #fff;
+    background: #a14f06;
+}
+#send_button:disabled {
+    border: 2px solid #999999;
+    background: #ccc;
+}
+#connect_button:active {
+    color: #fff;
+    background: #a14f06;
+}
+#private_send_button:active {
+    color: #fff;
+    background: #a14f06;
+}
+#private_send_button:disabled {
+    border: 2px solid #999999;
+    background: #ccc;
+}
+
+/* 履歴表示tableタグの親div */
+.parent-box {
+    display: flex;
+    flex-direction: row;
+    height: 400px;
+    width: 710px;
+}
+
+/* 履歴表示tableタグ */
+.table-box {
+    overflow-y: auto;
+    height: 400px;
+    width: 540px;
+    padding-left: 5px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #fffacd;
+    border-radius: 3px;
+}
+/* スクロールバー領域のサイズ */
+.table-box::-webkit-scrollbar{
+    width: 14px;    /* 縦スクロール時の幅 */
+}
+/* スクロールバーの可動域 */
+.table-box::-webkit-scrollbar-track{
+    background-color: #f5deb3;
+    border-radius: 3px;
+}
+/* スクロールバー本体 */
+.table-box::-webkit-scrollbar-thumb{
+    border: 2px solid #f07e1a;
+    background-color: #f4a460;
+    border-radius: 3px;
+}
+table {
+    width: 100%;
+}
+/* チャットコメント見出し（日時、ユーザー名） */
+tr.heading {
+    height: 26px;
+}
+td {
+    vertical-align: middle;
+    color: #333;
+    font-size: 14px;
+    text-align: left;
+}
+td {
+    background: #fffacd;
+}
+/* チャットコメント日時 左側・右側 */
+td.datetime-left, td.datetime-right {
+    color: #aaa;
+    width: 160px;
+    padding: 5px 5px 0px 5px;
+}
+/* チャットコメントユーザー名 左側・右側 */
+td.user-left, td.user-right {
+    color: #aaa;
+    width: 70px;
+    padding: 5px 5px 0px 5px;
+}
+/* チャットコメント文 左側・右側 */
+td.comment-left, td.comment-right {
+    overflow-wrap: anywhere;
+    margin-bottom: 5px;
+    padding: 0px 5px 5px 5px;
+}
+/* チャットコメント区切り */
+td.partition {
+    height: 5px;    
+}
+/* 日時表示pタグ */
+p.datetime {
+    margin: 0px;
+}
+/* チャットコメントユーザー名（自身） */
+.user-self {
+    color: #2db82d;
+    font-weight: bold;
+    margin: 0px;
+}
+
+/* ユーザーリスト欄 */
+.user-box {
+    overflow-y: auto;
+    height: 400px;
+    width: 150px;
+    padding-left: 5px;
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    background: #fffacd;
+    border-radius: 3px;
+}
+/* スクロールバー領域のサイズ */
+.user-box::-webkit-scrollbar{
+    height: 14px;   /* 横スクロール時の高さ */
+    width: 14px;    /* 縦スクロール時の幅 */
+}
+/* スクロールバーの可動域 */
+.user-box::-webkit-scrollbar-track{
+    background-color: #f5deb3;
+    border-radius: 3px;
+}
+/* スクロールバー本体 */
+.user-box::-webkit-scrollbar-thumb{
+    border: 2px solid #f07e1a;
+    background-color: #f4a460;
+    border-radius: 3px;
+}
+/* 参加者一覧のユーザー名 */
+.list-user {
+    margin: 5px;
+}
+/* 参加者一覧の自身のユーザー名 */
+.list-user-self {
+    color: #2db82d;
+    font-weight: bold;
+}
+
+/* 入室時、退出時コメント */
+p.entrance, p.exit {
+    color: #9400d3;
+    margin: 0px;
+}
+/* 切断時コメント */
+p.close {
+    color: #ff0000;
+    margin: 0px;
+}
+/* 名無しユーザー名 */
+p.noname {
+    color: #ff00ff;
+    margin: 0px;
+}
+/* プライベートコメント */
+p.private {
+    color: #ff00ff;
+    margin: 0px;
+}
+/* プライベートコメント欄送信OK時ガイド */
+p.private-guide-ok {
+    color: #2db82d;
+    margin: 0px;
+}
+/* プライベートコメント欄送信NG時ガイド */
+p.private-guide-ng {
+    color: #ff0000;
+    margin: 0px;
+}
+/* コメント欄送信ガイド */
+p.comment-guide {
+    color: #ff0000;
+    margin: 0px;
+}

@@ -1,0 +1,27 @@
+{
+    "name": "socket-manager/demo-project",
+    "description": "Demo Project",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "lib.tech.engineer",
+            "email": "lib.tech.engineer@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "socket-manager/library": "~1.8.9"
+    },
+    "repositories": {
+        "socket-manager/library": {
+            "type": "vcs",
+            "url": "https://github.com/socket-manager/library.git"
+        }
+    }
+}

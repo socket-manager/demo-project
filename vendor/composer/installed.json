@@ -1,0 +1,46 @@
+{
+    "packages": [
+        {
+            "name": "socket-manager/library",
+            "version": "v1.8.8",
+            "version_normalized": "1.8.8.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:coohii/library.git",
+                "reference": "6fd8a292c4f2cdd756ba7bfeb16be91f650a1cc8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coohii/library/zipball/6fd8a292c4f2cdd756ba7bfeb16be91f650a1cc8",
+                "reference": "6fd8a292c4f2cdd756ba7bfeb16be91f650a1cc8",
+                "shasum": ""
+            },
+            "time": "2024-05-06T12:40:05+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "SocketManager\\Library\\": "src/",
+                    "SocketManager\\Library\\Bin\\": "bin/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "coohii",
+                    "email": "msei658@gmail.com"
+                }
+            ],
+            "description": "SocketManager Library",
+            "support": {
+                "source": "https://github.com/coohii/library/tree/v1.8.8",
+                "issues": "https://github.com/coohii/library/issues"
+            },
+            "install-path": "../socket-manager/library"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
