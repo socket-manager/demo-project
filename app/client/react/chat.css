@@ -35,10 +35,9 @@ input.user {
     font-size: 14px;
 }
 
-/* コメント入力欄、プライベートコメント入力欄、ユーザー名入力欄 */
-div.comment-div, div.private-div, div.user-div {
-    display: flex;
-    flex-direction: row;
+/* ユーザー名入力欄 */
+div.user-div {
+    margin-top: 10px;
 }
 
 /* コメント入力欄 */
@@ -46,37 +45,37 @@ div.comment-div {
     margin-top: 60px;
 }
 
-/* 履歴欄の見出し */
-div.heading-div {
+/* プライベートコメント入力欄 */
+div.private-div {
     margin-top: 20px;
+}
+
+/* コメント入力欄、プライベートコメント入力欄、ユーザー名入力欄 */
+div.comment-div, div.private-div, div.user-div {
     display: flex;
     flex-direction: row;
 }
-/* 履歴ラベル欄 */
-div.label-div {
-    height: 20px;
-}
+
 /* 参加人数欄 */
 div.count-div {
     display: flex;
     flex-direction: row;
-    height: 20px;
     width: 150px;
     margin: 0 0 0 auto;
 }
 
 /* 履歴ラベル */
-p.log-label {
+div.log-label {
     color: #f07e1a;
     font-weight: bold;
 }
 /* 参加人数ラベル */
-p.count-label {
+div.count-label {
     color: #f07e1a;
     font-weight: bold;
 }
 /* 参加人数 */
-p.count-user {
+div.count-user {
     color: #f07e1a;
     font-weight: bold;
 }
@@ -118,6 +117,7 @@ input.private-user {
     background: #f07e1a;
     font-weight: bold;
     font-size: medium;
+    cursor: pointer;
 }
 #send_button:active {
     color: #fff;
@@ -142,6 +142,7 @@ input.private-user {
 
 /* 履歴表示tableタグの親div */
 .parent-box {
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
     height: 400px;
@@ -154,7 +155,6 @@ input.private-user {
     height: 400px;
     width: 540px;
     padding-left: 5px;
-    margin-top: 30px;
     margin-bottom: 30px;
     background: #fffacd;
     border-radius: 3px;
@@ -229,7 +229,6 @@ p.datetime {
     height: 400px;
     width: 150px;
     padding-left: 5px;
-    margin-top: 30px;
     margin-left: 20px;
     margin-bottom: 30px;
     background: #fffacd;

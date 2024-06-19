@@ -1,4 +1,4 @@
-$(window).on('load', async function()
+$(window).on('load', function()
 {
 });
 
@@ -25,26 +25,36 @@ $(function()
 
     /**
      * 自身による退室
+     * 
+     * @type {number}
      */
     const CHAT_SELF_CLOSE_CODE = 10;
 
     /**
      * サーバーからの切断
+     * 
+     * @type {number}
      */
     const CHAT_SERVER_CLOSE_CODE = 20;
 
     /**
      * サーバーからの切断（ユーザー名重複）
+     * 
+     * @type {number}
      */
     const CHAT_DUPLICATION_CLOSE_CODE = 30;
 
     /**
      * サーバーからの切断（ユーザー名なし）
+     * 
+     * @type {number}
      */
     const CHAT_NO_USER_CLOSE_CODE = 40;
 
     /**
      * クライアントからの切断
+     * 
+     * @type {number}
      */
     const CHAT_CLIENT_CLOSE_CODE = 3010;
 
@@ -55,89 +65,61 @@ $(function()
 
     /**
      * Websocketのインスタンス
+     * 
+     * @type {Object}
      */
     let websocket = null;
 
     /**
-     * オプションデータ
-     * 
-     * ※入室時にサーバーから取得
+     * @typedef {Object} opts - オプションデータ（入室時にサーバーから取得）
+     * @property {Array.<string>} user_list - ユーザー名のリスト
+     * @property {string} unknown_datetime - 不明な日付文字列
+     * @property {string} unknown_user - 不明なユーザー名
+     * @property {string} admin_user - 運営サイドのユーザー名
+     * @property {string} exit_comment - 退室コメント
+     * @property {string} server_close_comment - サーバーからの切断コメント
+     * @property {string} forced_close_comment - 強制切断コメント
+     * @property {string} unexpected_close_comment - 予期しない切断コメント
+     * @property {string} error_comment - エラーコメント
+     * @property {string} duplication_comment - ユーザー名重複時のコメント
+     * @property {string} no_user_comment - ユーザー名なし時のコメント
+     * @property {string} no_comment - コメントなし時のコメント
      */
+    /** @type {opts} */
     let opts =
     {
-        /**
-         * ユーザーリスト
-         */
-        'user_list': [],
-
-        /**
-         * 不明な日付文字列
-         */
-        'unknown_datetime': null,
-
-        /**
-         * 不明なユーザー名
-         */
-        'unknown_user': null,
-
-        /**
-         * 運営サイドのユーザー名
-         */
-        'admin_user': '<b>運営チーム</b>',
-
-        /**
-         * 退室コメント
-         */
-        'exit_comment': null,
-
-        /**
-         * サーバーからの切断コメント
-         */
-        'server_close_comment': null,
-
-        /**
-         * 強制切断コメント
-         */
-        'forced_close_comment': null,
-
-        /**
-         * 予期しない切断コメント
-         */
-        'unexpected_close_comment': null,
-
-        /**
-         * エラーコメント
-         */
-        'error_comment': 'エラーが発生しました',
-
-        /**
-         * ユーザー名重複コメント
-         */
-        'duplication_comment': 'そのユーザー名は既に使用されています',
-
-        /**
-         * ユーザー名なしコメント
-         */
-        'no_user_comment': 'ユーザー名を入力してください',
-
-        /**
-         * コメントなし
-         */
-        'no_comment': null
+        user_list: [],
+        unknown_datetime: null,
+        unknown_user: null,
+        admin_user: '<b>運営チーム</b>',
+        exit_comment: null,
+        server_close_comment: null,
+        forced_close_comment: null,
+        unexpected_close_comment: null,
+        error_comment: 'エラーが発生しました',
+        duplication_comment: 'そのユーザー名は既に使用されています',
+        no_user_comment: 'ユーザー名を入力してください',
+        no_comment: null
     };
 
     /**
      * 初回入室のフラグ
+     * 
+     * @type {boolean}
      */
     let flg_first_entrance = true;
 
     /**
      * エラー発生時のフラグ
+     * 
+     * @type {boolean}
      */
     let flg_error = false;
 
     /**
      * 周期フラグ
+     * 
+     * @type {boolean}
      */
     let flg_cycle = false;
 
@@ -213,8 +195,6 @@ $(function()
                 websocket.close(CHAT_CLIENT_CLOSE_CODE, JSON.stringify(param));
                 flg_cycle = false;
             }
-            $('#message_reply').text('');
-            $('#private_reply').text('');
         }
     });
 
@@ -250,6 +230,8 @@ $(function()
 
     /**
      * Websocketイベントの定義
+     * 
+     * @returns {void}
      */
     function setOpenWebsocket()
     {
@@ -308,8 +290,6 @@ $(function()
             // 入室コマンド
             if(data.cmd === 'entrance')
             {
-                // console.log('@@@entrance');
-
                 // ユーザー名を再設定
                 if(flg_first_entrance === true)
                 {
@@ -333,7 +313,6 @@ $(function()
             else
             if(data.cmd === 'message')
             {
-                console.log('@@@message');
                 $('#message_reply').text('');
                 if(data.result === false)
                 {
@@ -350,7 +329,6 @@ $(function()
             else
             if(data.cmd === 'exit')
             {
-                console.log('@@@exit');
                 comment = `<p class="exit">${data.comment}</p>`;
 
                 // 参加者一覧の反映
@@ -360,7 +338,6 @@ $(function()
             else
             if(data.cmd === 'close')
             {
-                console.log('@@@close');
                 comment = `<p class="close">${data.comment}</p>`;
 
                 // 参加者一覧の反映
@@ -370,7 +347,6 @@ $(function()
             else
             if(data.cmd === 'private')
             {
-                console.log('@@@private');
                 user = `<p class="private">${data.user}</p>`
                 comment = `<p class="private">${data.comment}</p>`;
             }
@@ -378,7 +354,6 @@ $(function()
             else
             if(data.cmd === 'private-reply')
             {
-                console.log('@@@private-reply');
                 if(data.result === true)
                 {
                     $('input[name="private-user"]').val('');
@@ -497,33 +472,8 @@ $(function()
             // コメント履歴へ投稿
             postComment(datetime, user, comment, true);
 
-            // 参加者一覧のクリア
-            $('.user-box').html('');
-
-            // ボタン名変更
-            $('#connect_button').text('参加する');
-
-            // ユーザー数の設定
-            $('#count-user').text('--');
-
-            // ユーザー名入力を許可
-            $('input[name="user"]').prop('disabled', false);
-
-            // URI入力を許可
-            $('input[name="uri"]').prop('disabled', false);
-
-            // コメント入力欄を禁止
-            $('input[name="comment"]').prop('disabled', true);
-            $('#send_button').prop('disabled', true);
-
-            // プライベートコメント入力欄を禁止
-            $('input[name="private-comment"]').prop('disabled', true);
-            $('input[name="private-user"]').prop('disabled', true);
-            $('#private_send_button').prop('disabled', true);
-
-            flg_first_entrance = true;
-
-            websocket = null;
+            // システム初期化
+            systemInit();
         };
     
         /**
@@ -553,40 +503,19 @@ $(function()
             // コメント履歴へ投稿
             postComment(datetime, user, comment, false);
 
-            // 参加者一覧のクリア
-            $('.user-box').html('');
-
-            // ボタン名変更
-            $('#connect_button').text('参加する');
-
-            // ユーザー数の設定
-            $('#count-user').text('--');
-
-            // ユーザー名入力を許可
-            $('input[name="user"]').prop('disabled', false);
-
-            // URI入力を許可
-            $('input[name="uri"]').prop('disabled', false);
-
-            flg_first_entrance = true;
-
-            // Websocketを閉じる
-            if(websocket !== null)
-            {
-                websocket.close();
-            }
-
-            websocket = null;
+            // システム初期化
+            systemInit();
         };
     }
 
     /**
      * コメント履歴へ投稿
      * 
-     * @param {*} datetime 日時
-     * @param {*} user ユーザー
-     * @param {*} comment コメント
-     * @param {*} self 自身の記事フラグ
+     * @param {string} datetime - 日時
+     * @param {string} user - ユーザー
+     * @param {string} comment - コメント
+     * @param {boolean} self - 自身の記事フラグ
+     * @returns {void}
      */
     function postComment(datetime, user, comment, self)
     {
@@ -612,7 +541,8 @@ $(function()
     /**
      * 参加者一覧の反映
      * 
-     * @param {*} list 参加者一覧リストデータ
+     * @param {Array.<string>} list 参加者一覧リストデータ
+     * @returns {void}
      */
     function setUserList(list)
     {
@@ -636,7 +566,7 @@ $(function()
     /**
      * 現在の日時文字列を取得
      * 
-     * @returns string 日時文字列（"Y/m/d H:i:s"形式）
+     * @returns {string} 日時文字列（"Y/m/d H:i:s"形式）
      */
     function getDatetimeString()
     {
@@ -655,5 +585,49 @@ $(function()
         s = s.toString().padStart(2, '0');
 
         return `${y}/${m}/${d} ${h}:${i}:${s}`;
+    }
+
+    /**
+     * システム初期化
+     * 
+     * @returns {void}
+     */
+    function systemInit()
+    {
+        // 参加人数のクリア
+        $('#count-user').text('--');
+
+        // ユーザーリストのクリア
+        $('.user-box').html('');
+
+        // 「参加する」ボタンへ変更
+        $('#connect_button').text('参加する');
+
+        // コメント入力フォームのガイドメッセージをクリア
+        $('#message_reply').text('');
+
+        // プライベートコメント入力フォームのガイドメッセージをクリア
+        $('#private_reply').text('');
+
+        // ユーザー名入力を許可
+        $('input[name="user"]').prop('disabled', false);
+
+        // URI入力を許可
+        $('input[name="uri"]').prop('disabled', false);
+
+        // コメント入力欄を禁止
+        $('input[name="comment"]').prop('disabled', true);
+        $('#send_button').prop('disabled', true);
+
+        // プライベートコメント入力欄を禁止
+        $('input[name="private-comment"]').prop('disabled', true);
+        $('input[name="private-user"]').prop('disabled', true);
+        $('#private_send_button').prop('disabled', true);
+
+        // 初回入室フラグの戻し
+        flg_first_entrance = true;
+
+        // Websocketインスタンスをクリア
+        websocket = null;
     }
 });

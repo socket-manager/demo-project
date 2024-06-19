@@ -1,0 +1,56 @@
+<!--
+    chat.html
+
+    チャットページ
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>React版簡易チャット</title>
+
+        <link type="text/css" rel="stylesheet" href="./chat.css" media="all" />
+
+        <script src="./react.production.min.js"></script>
+        <script src="./react-dom.production.min.js"></script>
+        <script src="./babel.min.js"></script>
+
+        <script src="./common.js"></script>
+        <script src="./area_connection.js"></script>
+        <script src="./area_history.js"></script>
+        <script src="./area_comment.js"></script>
+        <script src="./area_private.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+
+            /**
+             * チャット画面
+             * 
+             * @returns {Object} 画面エレメント
+             */
+            function ChatScreen()
+            {
+                // エレメントの生成
+                return(
+                    <div>
+                        <connection.Form />
+                        <history.ParentBox />
+                        <comment.Form />
+                        <comment.Guide />
+                        <private_comment.Form />
+                        <private_comment.Guide />
+                    </div>
+                );
+            }
+
+            // 画面レンダリング
+            const container = document.getElementById('root');
+            const root = ReactDOM.createRoot(container);
+            root.render(<ChatScreen />);
+
+        </script>
+    </body>
+</html>

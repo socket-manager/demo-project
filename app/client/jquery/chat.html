@@ -1,5 +1,5 @@
 <!--
-    chat.blade.php
+    chat.html
 
     チャットページ
 -->
@@ -10,38 +10,37 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>簡易チャット</title>
+        <title>jQuery版簡易チャット</title>
 
         <link type="text/css" rel="stylesheet" href="./chat.css" media="all" />
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="./jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="./chat.js"></script>
     </head>
     <body>
-        <div style="padding: 10px;"></div>
-
         <div class="user-div">
             <input class="uri" type="text" name="uri" value="ws://localhost:10000" placeholder="接続先">
             <input class="user" type="text" name="user" value="" placeholder="ユーザー名" maxlength="8">
             <button id="connect_button" style="cursor: pointer;">参加する</button>
         </div>
 
-        <div class="heading-div">
-            <div class="label-div">
-                <p class="log-label">履歴</p>
-            </div>
-            <div class="count-div">
-                <p class="count-label">人数：</p><p id="count-user" class="count-user">--</p>
-            </div>
-        </div>
-
         <div class="parent-box">
-            <div class="table-box">
-                <table>
-                    <tbody id="history">
-                    </tbody>
-                </table>
+            <div class="history-set-box">
+                <div class="log-label">
+                    履歴
+                </div>
+                <div class="table-box">
+                    <table>
+                        <tbody id="history">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="user-box">
+            <div class="user-set-box">
+                <div class="count-div">
+                    <div class="count-label">人数：</div><div id="count-user" class="count-user">--</div>
+                </div>
+                <div class="user-box">
+                </div>
             </div>
         </div>
 
@@ -50,7 +49,6 @@
             <button id="send_button" style="cursor: pointer;">ポチる</button>
         </div>
         <p class="comment-guide" id="message_reply"></p>
-        <div style="padding: 10px;"></div>
         <div class="private-div">
             <input class="comment private-comment" type="text" name="private-comment" value="" placeholder="プライベートコメント" maxlength="34">
             <input class="comment private-user" type="text" name="private-user" value="" placeholder="宛先" maxlength="8">
