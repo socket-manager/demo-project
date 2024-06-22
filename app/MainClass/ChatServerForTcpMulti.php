@@ -88,6 +88,29 @@ class ChatServerForTcpMulti extends Console
      */
     public function exec()
     {
+        //--------------------------------------------------------------------------
+        // 設定値の反映
+        //--------------------------------------------------------------------------
+
+        // ホスト名の設定
+        $this->host = config('const.host');
+
+        // ポート番号の設定
+        $this->port = config('const.port');
+
+        // 周期インターバルの設定
+        $this->cycle_interval = config('const.cycle_interval');
+
+        // アライブチェックタイムアウト時間の設定
+        $this->alive_interval = config('const.alive_interval');
+
+        // 親ポート番号の設定
+        $this->parent_port = config('const.parent_port');
+
+        //--------------------------------------------------------------------------
+        // 引数の反映
+        //--------------------------------------------------------------------------
+
         // 引数の取得（ポート番号）
         $port = $this->getParameter('port');
         if($port !== null)
@@ -110,7 +133,7 @@ class ChatServerForTcpMulti extends Console
         }
 
         //--------------------------------------------------------------------------
-        // 初期化
+        // SocketManagerの初期化
         //--------------------------------------------------------------------------
 
         // UNITパラメータのインスタンス化
