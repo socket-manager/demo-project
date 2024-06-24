@@ -18,7 +18,7 @@ return [
     'cycle_interval' => 1000,
 
     /**
-     * @var int アライブチェックタイムアウト時間（μs）
+     * @var int アライブチェックタイムアウト時間（s）
      */
     'alive_interval' => 3600,
 
