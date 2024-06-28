@@ -58,7 +58,7 @@ class ChatServerForWebsocket extends Console
     private int $cycle_interval = 1000;
 
     /**
-     * @var int $alive_interval アライブチェックタイムアウト時間（μs）
+     * @var int $alive_interval アライブチェックタイムアウト時間（s）
      */
     private int $alive_interval = 3600;
 
@@ -78,16 +78,16 @@ class ChatServerForWebsocket extends Console
         //--------------------------------------------------------------------------
 
         // ホスト名の設定
-        $this->host = config('const.host');
+        $this->host = config('const.host', $this->host);
 
         // ポート番号の設定
-        $this->port = config('const.port');
+        $this->port = config('const.port', $this->port);
 
         // 周期インターバルの設定
-        $this->cycle_interval = config('const.cycle_interval');
+        $this->cycle_interval = config('const.cycle_interval', $this->cycle_interval);
 
         // アライブチェックタイムアウト時間の設定
-        $this->alive_interval = config('const.alive_interval');
+        $this->alive_interval = config('const.alive_interval', $this->alive_interval);
 
         //--------------------------------------------------------------------------
         // 引数の反映
