@@ -637,6 +637,7 @@ const global_func =
                 if(typeof(data.opts) !== 'undefined')
                 {
                     global_data.opts = data.opts;
+                    global_data.opts.admin_user = React.createElement('b', {}, global_data.opts.admin_user);
                 }
 
                 // 参加者一覧の反映

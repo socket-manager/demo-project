@@ -199,7 +199,7 @@ class ParameterForWebsocket extends SocketManagerParameter
         /**
          * 運営サイドのユーザー名
          */
-        'admin_user' => '<b>運営チーム</b>',
+        'admin_user' => '運営チーム',
 
         /**
          * 退室コメント

@@ -304,6 +304,7 @@ $(function()
                 {
                     // オプションデータを退避
                     opts = data.opts;
+                    opts.admin_user = `<b>${opts.admin_user}</b>`
                 }
 
                 // 参加者一覧の反映
