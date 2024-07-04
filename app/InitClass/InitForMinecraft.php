@@ -61,20 +61,9 @@ class InitForMinecraft extends InitForWebsocket
     {
         return function(ParameterForMinecraft $p_param, $p_dat): ?string
         {
-            // $fnc = $this->getLogWriter();
             $minecraft = $p_param->isMinecraft();
             if($minecraft === true)
             {
-                // サーバーから送信したメッセージの返信はスルー
-                if(isset($p_dat['data']['body']['sender']) && $p_dat['data']['body']['sender'] === '外部')
-                {
-                    return null;
-                }
-                // マインクラフトからのレスポンス
-                if(isset($p_dat['data']['body']['statusCode']))
-                {
-                    return CommandQueueEnumForMinecraft::RESPONSE->value;
-                }
                 // マインクラフトからのチャット送信の場合は受け入れる
                 if(isset($p_dat['data']['body']['type']))
                 {
@@ -93,7 +82,7 @@ class InitForMinecraft extends InitForWebsocket
                     {
                         // プライベートコメントかどうか
                         $msg = $p_dat['data']['body']['message'];
-                        $w_ret = mb_strpos($msg, '@');
+                        $w_ret = mb_strpos($msg, '#');
                         if($w_ret !== false)
                         {
                             $user_name = mb_substr($msg, $w_ret + 1);
@@ -112,8 +101,7 @@ class InitForMinecraft extends InitForWebsocket
                         }
 
                         // 退出要求かどうか
-                        $w_ret = preg_match('/^\$exit$/', $p_dat['data']['body']['message'], $matches);
-                        if($w_ret > 0)
+                        if($p_dat['data']['body']['message'] === '$exit')
                         {
                             $cmd_data =
                             [
@@ -135,11 +123,25 @@ class InitForMinecraft extends InitForWebsocket
                         return CommandQueueEnumForMinecraft::MESSAGE->value;
                     }
                 }
+
+                // サーバーから送信したメッセージの返信はスルー
+                if(isset($p_dat['data']['body']['sender']) && $p_dat['data']['body']['sender'] === '外部')
+                {
+                    return null;
+                }
+
                 // コマンド指定の場合は受け入れる
                 if(isset($p_dat['data']['cmd']))
                 {
                     return $p_dat['data']['cmd'];
                 }
+
+                // マインクラフトからのレスポンス
+                if(isset($p_dat['data']['body']['statusCode']))
+                {
+                    return CommandQueueEnumForMinecraft::RESPONSE->value;
+                }
+
                 return null;
             }
             else

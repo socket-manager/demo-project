@@ -155,6 +155,26 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * マインクラフトへサブスクライブデータを送信
+     * 
+     */
+    public function sendSubscribesData()
+    {
+        $types = config('minecraft.subscribe_types');
+
+        foreach($types as $type)
+        {
+            // 送信データの設定
+            $w_ret = $this->getSubscribeData($type);
+            $subscribe_entry =
+            [
+                "data" => $w_ret
+            ];
+            $this->setSendStack($subscribe_entry);
+        }
+    }
+
+    /**
      * マインクラフトへ送信するコマンドデータを取得
      * 
      * @param string $p_cmd コマンド文字列
@@ -210,6 +230,36 @@ class ParameterForMinecraft extends ParameterForWebsocket
     }
 
     /**
+     * マインクラフトへ送信するサブタイトルコマンドデータを取得
+     * 
+     * @param string $p_typ 処理タイプ文字列
+     * @param string $p_usr ユーザー名
+     * @param string $p_preposition 前置詞
+     * @return array 送信データ
+     */
+    public function getCommandDataForSubTitle(string $p_typ, string $p_usr, string $p_preposition = 'by'): array
+    {
+        $cmd = "title @s subtitle §o§7{$p_preposition} {$p_usr}";
+        $w_ret = $this->getCommandData($cmd, $p_typ);
+        return $w_ret;
+    }
+
+    /**
+     * マインクラフトへ送信するタイトルコマンドデータを取得
+     * 
+     * @param string $p_typ 処理タイプ文字列
+     * @param string $p_cmt コメント
+     * @param string $p_preposition 前置詞
+     * @return array 送信データ
+     */
+    public function getCommandDataForTitle(string $p_typ, string $p_cmt): array
+    {
+        $cmd = "title @s title §e{$p_cmt}";
+        $w_ret = $this->getCommandData($cmd, $p_typ);
+        return $w_ret;
+    }
+
+    /**
      * マインクラフトへ送信するプライベートコメントコマンドデータを取得
      * 
      * @param string $p_typ 処理タイプ文字列
@@ -218,7 +268,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * @param string $p_cmt コメント
      * @return array 送信データ
      */
-    public function getCommandDataForPrivate(string $p_typ, string $p_susr, string $p_dusr, string $p_cmt): array
+    public function getCommandDataForPrivate(string $p_typ, string $p_susr, string $p_dusr = null, string $p_cmt): array
     {
         $cmd = "msg @s {$p_cmt}[by {$p_susr}]";
         $w_ret = $this->getCommandData($cmd, $p_typ);
@@ -325,8 +375,25 @@ class ParameterForMinecraft extends ParameterForWebsocket
             return !$p_param->isMinecraft();
         }, $this);
 
+        // 自身がマインクラフトなら抜ける
+        if($minecraft === true)
+        {
+            return;
+        }
+
         // 全マインクラフトへ配信
-        $cmd_data = $this->getCommandDataForMessage('message', $p_msg['user'], $p_msg['comment']);
+        $cmd_data = $this->getCommandDataForSubtitle('subtitle', $p_msg['user']);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $this->setSendStackAll($data, $minecraft, function(ParameterForMinecraft $p_param)
+        {
+            return $p_param->isMinecraft();
+        }, $this);
+
+        // 全マインクラフトへ配信
+        $cmd_data = $this->getCommandDataForTitle('title', $p_msg['comment']);
         $data =
         [
             'data' => $cmd_data
@@ -355,7 +422,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         }, $this);
 
         // 全マインクラフトへ配信
-        $cmd_data = $this->getCommandDataForMessage('exit', $p_msg['user'], $p_msg['comment']);
+        $cmd_data = $this->getCommandDataForPrivate('exit', $p_msg['user'], null, $p_msg['comment']);
         $data =
         [
             'data' => $cmd_data
@@ -409,7 +476,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         }, $this);
 
         // 全マインクラフトへ配信
-        $cmd_data = $this->getCommandDataForMessage('close', $p_msg['user'], $p_msg['comment']);
+        $cmd_data = $this->getCommandDataForPrivate('private', self::CHAT_ADMIN_USER, null, $p_msg['comment']);
         $data =
         [
             'data' => $cmd_data
@@ -529,7 +596,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         $data = [];
         if($minecraft === true)
         {
-            $minecraft_data = $this->getCommandDataForMessage('private-reply', self::CHAT_ADMIN_USER, $cmt_join);
+            $minecraft_data = $this->getCommandDataForPrivate('private-reply', self::CHAT_ADMIN_USER, null, $cmt_join);
             $data =
             [
                 'data' => $minecraft_data
@@ -576,7 +643,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         }, $this);
 
         // 全マインクラフトへ配信
-        $cmd_data = $this->getCommandDataForMessage('usersearch-result', $p_msg['user'], $p_msg['comment']);
+        $cmd_data = $this->getCommandDataForPrivate('usersearch-result', $p_msg['user'], null, $p_msg['comment']);
         $data =
         [
             'data' => $cmd_data
@@ -604,13 +671,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
              * サブスクライブのエントリ
              */
 
-            // 送信データの設定
-            $w_ret = $this->getSubscribeData('PlayerMessage');
-            $subscribe_entry =
-            [
-                "data" => $w_ret
-            ];
-            $this->setSendStack($subscribe_entry);
+             $this->sendSubscribesData();
         }
     }
 
@@ -625,7 +686,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         if($minecraft === true)
         {
             // マインクラフトへ配信
-            $cmd_data = $this->getCommandDataForMessage('no-comment', self::CHAT_ADMIN_USER, $this->options['no_comment']);
+            $cmd_data = $this->getCommandDataForPrivate('no-comment', self::CHAT_ADMIN_USER, null, $this->options['no_comment']);
             $data =
             [
                 'data' => $cmd_data
@@ -654,7 +715,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         if($minecraft === true)
         {
             // マインクラフトへ配信
-            $cmd_data = $this->getCommandDataForMessage('user-duplication', self::CHAT_ADMIN_USER, $this->options['duplication_comment']);
+            $cmd_data = $this->getCommandDataForPrivate('user-duplication', self::CHAT_ADMIN_USER, null, $this->options['duplication_comment']);
             $data =
             [
                 'data' => $cmd_data
@@ -689,7 +750,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         if($minecraft === true)
         {
             // マインクラフトへ配信
-            $cmd_data = $this->getCommandDataForMessage('no-user', self::CHAT_ADMIN_USER, $this->options['no_user_comment']);
+            $cmd_data = $this->getCommandDataForPrivate('no-user', self::CHAT_ADMIN_USER, null, $this->options['no_user_comment']);
             $data =
             [
                 'data' => $cmd_data
@@ -765,7 +826,7 @@ class ParameterForMinecraft extends ParameterForWebsocket
         }, $this->param);
 
         // 全マインクラフトへ配信
-        $cmd_data = $this->param->getCommandDataForMessage('forced-close', $msg['user'], $msg['comment']);
+        $cmd_data = $this->param->getCommandDataForPrivate('forced-close', $msg['user'], null, $msg['comment']);
         $data =
         [
             'data' => $cmd_data

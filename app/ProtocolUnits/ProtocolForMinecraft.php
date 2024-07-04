@@ -353,7 +353,7 @@ class ProtocolForMinecraft extends ProtocolForWebsocket
                 }
             }
     
-            $p_param->logWriter('debug', ['receive payload data' => $entry_data['data']]);
+            $p_param->logWriter('debug', ['receive payload data' => $entry_data['data'], 'cid' => $p_param->getConnectionId()]);
     
             // PONGの場合は抜ける
             if(($entry_data['first_byte'] & 0x0f) === ParameterForWebsocket::CHAT_OPCODE_PONG_MASK)

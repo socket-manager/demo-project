@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "socket-manager/library": "~1.12.0"
+        "socket-manager/library": "~1.13.0"
     },
     "repositories": {
         "socket-manager/library": {

@@ -227,7 +227,7 @@ class CommandForMinecraft extends CommandForWebsocket
                     $minecraft = $p_param->isMinecraft();
 
                     // 全マインクラフトへ配信
-                    $cmd_data = $p_param->getCommandDataForMessage('entrance', $msg['user'], $msg['comment']);
+                    $cmd_data = $p_param->getCommandDataForPrivate('entrance', $msg['user'], null, $msg['comment']);
                     $data =
                     [
                         'data' => $cmd_data
@@ -248,20 +248,6 @@ class CommandForMinecraft extends CommandForWebsocket
                         ];
                         // 自身へメッセージ配信
                         $p_param->setSendStack($data);
-                    }
-                    else
-                    {
-                        /**
-                         * サブスクライブのエントリ
-                         */
-
-                        // 送信データの設定
-                        $w_ret = $p_param->getSubscribeData('PlayerMessage');
-                        $subscribe_entry =
-                        [
-                            "data" => $w_ret
-                        ];
-                        $p_param->setSendStack($subscribe_entry);
                     }
 
                     // チャットをログに残す
@@ -304,6 +290,9 @@ class CommandForMinecraft extends CommandForWebsocket
             {
                 return $sta;
             }
+
+            // サブスクライブのエントリ
+            $p_param->sendSubscribesData();
 
             // ユーザー名取得
             $hdrs = $p_param->getHeaders();
