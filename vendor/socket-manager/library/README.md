@@ -1,2 +1,0 @@
-# socket-manager
-SocketManager Library
