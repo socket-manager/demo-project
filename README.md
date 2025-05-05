@@ -45,5 +45,7 @@
 詳しい連携方法は<a href="https://socket-manager.github.io/document/laravel.html">こちら</a>をご覧ください。
 
 ## Contact Us
-
 バグ報告やご要望などは<a href="mailto:lib.tech.engineer@gmail.com">`こちら`</a>から受け付けております。
+
+## License
+MIT, see <a href="https://github.com/socket-manager/demo-project/blob/main/LICENSE">LICENSE file</a>.
