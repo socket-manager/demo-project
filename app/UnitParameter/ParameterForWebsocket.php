@@ -252,9 +252,9 @@ class ParameterForWebsocket extends SocketManagerParameter
     /**
      * コンストラクタ
      * 
-     * @param bool $p_tls TLSフラグ
+     * @param ?bool $p_tls TLSフラグ
      */
-    public function __construct(bool $p_tls = null)
+    public function __construct(?bool $p_tls = null)
     {
         parent::__construct();
 
@@ -375,10 +375,10 @@ class ParameterForWebsocket extends SocketManagerParameter
     /**
      * ハンドシェイク時のヘッダ情報の取得
      * 
-     * @param string $p_cid 接続ID
+     * @param ?string $p_cid 接続ID
      * @return ?array ヘッダ情報
      */
-    public function getHeaders(string $p_cid = null): ?array
+    public function getHeaders(?string $p_cid = null): ?array
     {
         $cid = null;
         if($p_cid !== null)

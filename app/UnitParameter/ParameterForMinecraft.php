@@ -63,9 +63,9 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * コンストラクタ
      * 
-     * @param bool $p_tls TLSフラグ
+     * @param ?bool $p_tls TLSフラグ
      */
-    public function __construct(bool $p_tls = null)
+    public function __construct(?bool $p_tls = null)
     {
         parent::__construct($p_tls);
     }
@@ -78,10 +78,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
     /**
      * 自身の接続がマインクラフト接続かどうかを検査
      * 
-     * @param string $p_cid 接続ID
+     * @param ?string $p_cid 接続ID
      * @return bool true（マインクラフト接続） or false（マインクラフト接続以外）
      */
-    public function isMinecraft(string $p_cid = null)
+    public function isMinecraft(?string $p_cid = null)
     {
         $cid = null;
         if($p_cid !== null)
@@ -178,10 +178,10 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * マインクラフトへ送信するコマンドデータを取得
      * 
      * @param string $p_cmd コマンド文字列
-     * @param string $p_typ 処理タイプ文字列（'response'コマンドで利用）
+     * @param ?string $p_typ 処理タイプ文字列（'response'コマンドで利用）
      * @return array 送信データ
      */
-    protected function getCommandData(string $p_cmd, string $p_typ = null): array
+    protected function getCommandData(string $p_cmd, ?string $p_typ = null): array
     {
         // UUIDの取得
         $uuidv4 = $this->getUuidv4();
