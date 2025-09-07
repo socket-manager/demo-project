@@ -11,6 +11,10 @@ namespace App\MainClass;
 use SocketManager\Library\SocketManager;
 use SocketManager\Library\FrameWork\Console;
 
+use SocketManager\Library\SimpleSocketGenerator;
+use SocketManager\Library\SimpleSocketTypeEnum;
+use SocketManager\Library\ISimpleSocketUdp;
+
 use App\UnitParameter\ParameterForMinecraft;
 use App\InitClass\InitForMinecraft;
 use App\ProtocolUnits\ProtocolForMinecraft;
@@ -124,6 +128,51 @@ class ChatServerForMinecraft extends Console
         $manager->setCommandUnits($entry);
 
         //--------------------------------------------------------------------------
+        // シンプルソケットの初期化
+        //--------------------------------------------------------------------------
+
+        $generator = new SimpleSocketGenerator(SimpleSocketTypeEnum::UDP, null, null, 1000);
+        $generator->setLogWriter($init->getLogWriter());
+        $generator->setKeepRunning(function(?ISimpleSocketUdp $p_simple_socket, ParameterForMinecraft $p_param)
+        {
+            $cids = $p_param->getConnectionIdAll();
+            $all_cnt = count($cids);
+            $minecraft_cnt = 0;
+            foreach($cids as $cid)
+            {
+                if($p_param->isMinecraft($cid))
+                {
+                    $minecraft_cnt++;
+                }
+            }
+            $send_data =
+            [
+                [
+                    'service' => 'minecraft-parent',
+                    'type' => 'user-cnt',
+                    'data' => $all_cnt
+                ],
+                [
+                    'service' => 'minecraft-parent',
+                    'type' => 'minecraft-cnt',
+                    'data' => $minecraft_cnt
+                ]
+            ];
+            $serialize_data = json_encode($send_data);
+            $w_ret = $p_simple_socket->sendto('localhost', 15000, $serialize_data);
+            if($w_ret === null)
+            {
+                return;
+            }
+            else
+            if($w_ret === false)
+            {
+                return;
+            }
+        }, $param);
+        $generator->generate();
+
+        //--------------------------------------------------------------------------
         // リッスンポートで待ち受ける
         //--------------------------------------------------------------------------
 
@@ -145,11 +194,19 @@ class ChatServerForMinecraft extends Console
             {
                 goto finish;
             }
+
+            // 周期ドリブン
+            $ret = $generator->cycleDriven($this->cycle_interval);
+            if($ret === false)
+            {
+                goto finish;
+            }
         }
 
 finish:
         // 全接続クローズ
         $manager->shutdownAll();
+        $generator->shutdownAll();
     }
 
 }
