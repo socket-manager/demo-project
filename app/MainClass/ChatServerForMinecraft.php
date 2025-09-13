@@ -170,7 +170,11 @@ class ChatServerForMinecraft extends Console
                 return;
             }
         }, $param);
-        $generator->generate();
+        $w_ret = $generator->generate();
+        if($w_ret === null)
+        {
+            goto finish;
+        }
 
         //--------------------------------------------------------------------------
         // リッスンポートで待ち受ける
