@@ -1,51 +1,92 @@
-# DEMO-PROJECT on SOCKET-MANAGER Framework
-マインクラフトと連携できるWebsocketサーバーのデモ環境です。
+# DEMO-PROJECT：フレームワークのデモ環境プロジェクト
+Minecraftと連携できる軽量WebSocketサーバーのデモプロジェクトです。  
+リアルタイムチャットのサンプル（ブラウザ／Minecraftクライアント対応）と、Laravel連携のサンプルを含みます。
 
-<img src="https://socket-manager.github.io/document/img/index/demo.gif" />
+---
 
-## サーバーの起動
-上記の例の場合はプロジェクトルートディレクトリで以下のコマンドを実行すればサーバーを起動できます。
+## 【 概要 】
+このリポジトリは、SOCKET-MANAGERフレームワーク上で動作するWebSocketサーバーのデモです。  
+Minecraftと連携してチャットを行うサンプルや、ブラウザクライアント（jQuery / React）を提供し、リアルタイム通信の実装例として利用できます。Laravel連携のサンプルも用意しています。
 
-<pre>
-> php worker app:minecraft-chat-server <ポート番号>
-</pre>
+---
 
-## クライアントの起動
-### ブラウザの場合
-以下のディレクトリにjQuery/React版のHTMLファイルが入っていますのでお好きな方をブラウザにドラッグ＆ドロップしてください（Webサーバーを起動する必要はありません）。
+## 【 特徴 】
+- WebSocketベースのリアルタイムチャット（ブラウザ / Minecraft）
+- Minecraftクライアントからの接続サンプル（チャット連携）
+- jQuery / React のクライアントサンプルを同梱
+- Laravelとの連携方法をドキュメントで提供
 
-/app/client/jquery/chat.html（jQuery版）<br />
-/app/client/react/chat.html（React版）
+---
 
-### マインクラフトの場合
-マインクラフトのチャット画面で以下のコマンドを実行すれば接続できます。
+## 【 クイックスタート（サーバー起動） 】
+プロジェクトルートで以下のコマンドを実行してサーバーを起動します。
 
-<pre>
-> /wsserver localhost:10000/<ユーザー名>
-</pre>
+```bash
+php worker app:minecraft-chat-server <ポート番号>
+```
 
-サーバーへ接続後は普通にチャットできます。<br />
-以下のフォーマットで入力すれば特定のユーザーへプライベートコメントが送信できます。
+例）
+```bash
+php worker app:minecraft-chat-server 10000
+```
 
-<pre>
-> <メッセージ>#<宛先ユーザー名>
-</pre>
+起動後、指定したポートでWebSocketサーバーが待ち受けます。
 
-※マインクラフトはUWPアプリのため以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。
+---
 
-<pre>
-> CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
-</pre>
+## 【 クライアントの使い方 】
 
-## 補足
-このプロジェクトには６種類のサーバーをご用意しています。<br />
-詳しい使い方は<a href="https://socket-manager.github.io/document/extra-demo.html">こちら</a>をご覧ください。
+### ブラウザ（jQuery / React）
+同梱のクライアントHTMLをブラウザで開いて接続できます。任意のブラウザでファイルを開くか、静的ファイルサーバーに配置してアクセスしてください。
 
-このプロジェクトはLaravelと連携できます。<br />
-詳しい連携方法は<a href="https://socket-manager.github.io/document/laravel.html">こちら</a>をご覧ください。
+- jQuery版: /app/client/jquery/chat.html  
+- React版: /app/client/react/chat.html
 
-## Contact Us
+これらのファイルは、WebSocket経由でチャットメッセージを送受信する動作サンプルです。
+
+### Minecraftから接続する方法
+Minecraftのチャット画面から以下のコマンドを実行して接続します。
+
+```
+/wsserver <ホスト>:<ポート>/<ユーザー名>
+```
+
+例:
+```
+/wsserver localhost:10000/Player01
+```
+
+接続後は通常のチャットと同様にメッセージを送れます。特定ユーザーへのプライベートメッセージは以下のフォーマットで送れます。
+
+```
+<メッセージ>#<宛先ユーザー名>
+```
+
+---
+
+## 【 Windows (UWP) のループバック許可 】
+Minecraft（UWP版）を使う場合、ローカルのWebSocketサーバーにアクセスするためにループバックを許可する必要があります。管理者権限のコマンドプロンプトで以下を実行してください。
+
+```powershell
+CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
+```
+
+---
+
+## 【 補足とリンク 】
+このプロジェクトには複数のサーバー例を用意しています。より詳しい使い方や追加のデモは以下を参照してください。  
+- 追加デモ: https://socket-manager.github.io/document/extra-demo.html  
+- Laravel連携: https://socket-manager.github.io/document/laravel.html
+
+＜デモ画面＞  
+<img src="https://socket-manager.github.io/document/img/index/demo.gif" alt="DEMO: Minecraft と WebSocket の接続例" />
+
+---
+
+## 【 Contact Us 】
 バグ報告やご要望などは<a href="mailto:lib.tech.engineer@gmail.com">`こちら`</a>から受け付けております。
 
-## License
+---
+
+## 【 License 】
 MIT, see <a href="https://github.com/socket-manager/demo-project/blob/main/LICENSE">LICENSE file</a>.
