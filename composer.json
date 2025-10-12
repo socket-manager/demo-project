@@ -2,6 +2,9 @@
     "name": "socket-manager/demo-project",
     "description": "DEMO-PROJECT: フレームワークのデモ環境プロジェクト",
     "type": "project",
+    "support": {
+        "docs": "https://socket-manager.github.io/document/"
+    },
     "license": "MIT",
     "keywords": [
         "php",
