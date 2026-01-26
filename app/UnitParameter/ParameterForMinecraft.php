@@ -264,11 +264,11 @@ class ParameterForMinecraft extends ParameterForWebsocket
      * 
      * @param string $p_typ 処理タイプ文字列
      * @param string $p_susr 送信元ユーザー名
-     * @param string $p_dusr 送信先ユーザー名
+     * @param ?string $p_dusr 送信先ユーザー名
      * @param string $p_cmt コメント
      * @return array 送信データ
      */
-    public function getCommandDataForPrivate(string $p_typ, string $p_susr, string $p_dusr = null, string $p_cmt): array
+    public function getCommandDataForPrivate(string $p_typ, string $p_susr, ?string $p_dusr, string $p_cmt): array
     {
         $cmd = "msg @s {$p_cmt}[by {$p_susr}]";
         $w_ret = $this->getCommandData($cmd, $p_typ);
