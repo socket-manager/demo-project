@@ -5,7 +5,7 @@ return [
     /**
      * @var string ホスト名
      */
-    'host' => 'localhost',
+    'host' => '127.0.0.1',
 
     /**
      * @var int ポート番号（UDPマルチサーバーの親ポートと兼用）
